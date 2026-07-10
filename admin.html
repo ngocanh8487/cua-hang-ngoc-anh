@@ -79,19 +79,22 @@
   <main class="qly-khung">
 
     <div class="qly-buoc">
-      <strong>📖 Cách dùng (3 bước, không cần biết code):</strong>
+      <strong>📖 Cách dùng (không cần biết code):</strong>
       <ol>
-        <li>Sửa thông tin bên dưới: đổi giá, đổi tên, thêm hoặc xóa sản phẩm...</li>
+        <li>Sửa thông tin bên dưới: đổi giá, thêm/xóa sản phẩm, thêm/xóa danh mục...</li>
         <li>Bấm nút xanh <strong>"⬇ Tải xuống file dữ liệu mới"</strong> ở cuối trang
             → máy tải về file tên <strong>products.js</strong>.</li>
-        <li>Chép file vừa tải <strong>đè vào</strong> file cũ trong thư mục
-            <strong>website-ban-hang → js</strong> (chọn Replace/Thay thế)
-            → mở website bấm <strong>Ctrl+F5</strong> là thấy thay đổi.</li>
+        <li>Vào trang <strong>github.com/ngocanh8487/cua-hang-ngoc-anh</strong>
+            (đăng nhập nếu được hỏi) → bấm <strong>Add file → Upload files</strong>
+            → kéo file <strong>products.js</strong> vừa tải vào → bấm nút xanh
+            <strong>Commit changes</strong>.</li>
+        <li>Chờ 1–2 phút → mở website bấm <strong>Ctrl+F5</strong> là thấy thay đổi.</li>
       </ol>
-      <p style="margin-top:8px">💡 Thay <strong>mã QR</strong>: chép ảnh QR mới đè lên
-        <strong>qr-vn.png</strong> (Việt) hoặc <strong>qr-lao.png</strong> (Lào).
-        Thay <strong>ảnh sản phẩm</strong>: chép ảnh vào thư mục <strong>images</strong>
-        rồi gõ tên file vào ô "Ảnh" của sản phẩm (ví dụ: images/gao.jpg).</p>
+      <p style="margin-top:8px">💡 Thay <strong>mã QR</strong> hoặc <strong>thêm ảnh sản phẩm</strong>:
+        cũng vào <strong>Add file → Upload files</strong> trên GitHub, tải ảnh lên
+        (QR Việt đặt tên <strong>qr-vn.png</strong>, QR Lào <strong>qr-lao.png</strong>,
+        ảnh sản phẩm đặt tên không dấu ví dụ <strong>gao.jpg</strong> rồi gõ tên đó
+        vào ô "Ảnh" của sản phẩm bên dưới).</p>
     </div>
 
     <h2 class="muc">🏪 Thông tin cửa hàng</h2>
@@ -112,6 +115,10 @@
       </div>
     </div>
 
+    <h2 class="muc">🏷️ Danh mục sản phẩm</h2>
+    <div id="danh-sach-dm"></div>
+    <button class="nut-phu" id="nut-them-dm">➕ Thêm danh mục mới</button>
+
     <h2 class="muc">📦 Sản phẩm <span id="dem-sp" style="font-weight:400;font-size:0.9rem"></span></h2>
     <div id="danh-sach-sp"></div>
     <button class="nut-phu" id="nut-them-sp">➕ Thêm sản phẩm mới</button>
@@ -130,12 +137,17 @@
      rồi sinh ra file products.js mới để tải xuống.
      ================================================================ */
 
-  /* Bản sao dữ liệu đang chỉnh (không đụng dữ liệu gốc đang chạy) */
   let duLieu = {
     cauHinh: JSON.parse(JSON.stringify(CAU_HINH)),
     danhMuc: JSON.parse(JSON.stringify(DANH_MUC)),
     sanPham: JSON.parse(JSON.stringify(SAN_PHAM))
   };
+
+  /* ---------- Chống lỗi khi hiển thị ký tự đặc biệt ---------- */
+  function thoatHTML(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
 
   /* ---------- Đổ thông tin cửa hàng vào form ---------- */
   function doThongTinShop() {
@@ -145,6 +157,79 @@
     document.getElementById("ch-diachi").value   = duLieu.cauHinh.diaChi || "";
     document.getElementById("ch-tygia").value    = duLieu.cauHinh.tyGiaLAK;
     document.getElementById("ch-zalo").value     = duLieu.cauHinh.soZaloNhanDon || "";
+  }
+
+  /* ---------- Tạo mã danh mục từ tên (bỏ dấu tiếng Việt) ---------- */
+  function taoMaDM(ten) {
+    return ten.normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/đ/g, "d").replace(/Đ/g, "D")
+      .toLowerCase().trim().replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "danh-muc";
+  }
+
+  /* ---------- Vẽ danh sách DANH MỤC dạng form ---------- */
+  function veDanhSachDM() {
+    const khung = document.getElementById("danh-sach-dm");
+    let html = "";
+    duLieu.danhMuc.forEach(function (dm, i) {
+      const soSP = duLieu.sanPham.filter(function (sp) { return sp.danhMuc === dm.id; }).length;
+      html +=
+        '<div class="the-sp-qly" data-dm-i="' + i + '">' +
+        '  <div class="hang">' +
+        '    <label style="flex:2">Tên danh mục<input type="text" class="o-dm-ten" value="' + thoatHTML(dm.ten) + '"></label>' +
+        '    <label>Biểu tượng (emoji)<input type="text" class="o-dm-icon" value="' + thoatHTML(dm.icon) + '"></label>' +
+        '    <label style="flex:1;align-self:flex-end">' +
+        '      <span class="gia-quy-doi">' + soSP + ' sản phẩm</span><br>' +
+        '      <button type="button" class="nut-xoa-sp nut-xoa-dm" data-i="' + i + '">🗑 Xóa danh mục</button>' +
+        "    </label>" +
+        "  </div>" +
+        "</div>";
+    });
+    khung.innerHTML = html;
+
+    /* Xóa danh mục (chỉ khi không còn sản phẩm nào thuộc nó) */
+    khung.querySelectorAll(".nut-xoa-dm").forEach(function (nut) {
+      nut.addEventListener("click", function () {
+        const i = parseInt(nut.dataset.i);
+        const dm = duLieu.danhMuc[i];
+        const soSP = duLieu.sanPham.filter(function (sp) { return sp.danhMuc === dm.id; }).length;
+        if (soSP > 0) {
+          alert('Chưa xóa được: đang có ' + soSP + ' sản phẩm thuộc "' + dm.ten +
+            '".\nHãy mở từng sản phẩm đó và chuyển sang danh mục khác trước.');
+          return;
+        }
+        if (confirm('Xóa danh mục "' + dm.ten + '"?')) {
+          ghiNhanForm();
+          duLieu.danhMuc.splice(i, 1);
+          veDanhSachDM();
+          veDanhSachSP();
+        }
+      });
+    });
+
+    /* Đổi tên/biểu tượng danh mục → cập nhật ngay các ô chọn của sản phẩm */
+    khung.querySelectorAll(".o-dm-ten, .o-dm-icon").forEach(function (o) {
+      o.addEventListener("change", function () {
+        ghiNhanForm();
+        veDanhSachSP();
+      });
+    });
+  }
+
+  /* ---------- Thêm danh mục mới ---------- */
+  function ganNutThemDM() {
+    document.getElementById("nut-them-dm").addEventListener("click", function () {
+      const ten = prompt("Tên danh mục mới (ví dụ: Trái cây tươi):", "");
+      if (!ten || !ten.trim()) return;
+      ghiNhanForm();
+      let id = taoMaDM(ten), dem = 2;
+      while (duLieu.danhMuc.some(function (d) { return d.id === id; })) {
+        id = taoMaDM(ten) + "-" + dem++;
+      }
+      duLieu.danhMuc.push({ id: id, ten: ten.trim(), icon: "🏷️" });
+      veDanhSachDM();
+      veDanhSachSP();
+    });
   }
 
   /* ---------- Vẽ danh sách sản phẩm dạng form ---------- */
@@ -162,7 +247,7 @@
         '<div class="the-sp-qly" data-i="' + i + '">' +
         '  <div class="dau-the">' +
         "    <strong>#" + (i + 1) + "</strong>" +
-        '    <button class="nut-xoa-sp" data-i="' + i + '">🗑 Xóa sản phẩm này</button>' +
+        '    <button class="nut-xoa-sp nut-xoa-hang" data-i="' + i + '">🗑 Xóa sản phẩm này</button>' +
         "  </div>" +
         '  <div class="hang">' +
         '    <label style="flex:2">Tên sản phẩm<input type="text" class="o-ten" value="' + thoatHTML(sp.ten) + '"></label>' +
@@ -183,13 +268,14 @@
     document.getElementById("dem-sp").textContent = "(" + duLieu.sanPham.length + " sản phẩm)";
 
     /* Nút xóa từng sản phẩm */
-    khung.querySelectorAll(".nut-xoa-sp").forEach(function (nut) {
+    khung.querySelectorAll(".nut-xoa-hang").forEach(function (nut) {
       nut.addEventListener("click", function () {
         const i = parseInt(nut.dataset.i);
         if (confirm('Xóa "' + duLieu.sanPham[i].ten + '"?')) {
           ghiNhanForm();
           duLieu.sanPham.splice(i, 1);
           veDanhSachSP();
+          veDanhSachDM();
         }
       });
     });
@@ -198,6 +284,7 @@
     khung.querySelectorAll(".the-sp-qly").forEach(function (the) {
       const oGia = the.querySelector(".o-gia");
       const oLak = the.querySelector("[data-lak]");
+      if (!oGia || !oLak) return;
       function capNhat() {
         const g = parseFloat(oGia.value) || 0;
         const tg = parseFloat(document.getElementById("ch-tygia").value) || 0;
@@ -217,6 +304,16 @@
     duLieu.cauHinh.tyGiaLAK      = parseFloat(document.getElementById("ch-tygia").value) || 0.85;
     duLieu.cauHinh.soZaloNhanDon = document.getElementById("ch-zalo").value.trim();
 
+    /* Ghi nhận danh mục (giữ nguyên mã id để sản phẩm không bị lạc) */
+    document.querySelectorAll("#danh-sach-dm .the-sp-qly").forEach(function (the) {
+      const i = parseInt(the.dataset.dmI);
+      const dm = duLieu.danhMuc[i];
+      if (!dm) return;
+      dm.ten  = the.querySelector(".o-dm-ten").value.trim() || dm.ten;
+      dm.icon = the.querySelector(".o-dm-icon").value.trim() || "🏷️";
+    });
+
+    /* Ghi nhận sản phẩm */
     document.querySelectorAll("#danh-sach-sp .the-sp-qly").forEach(function (the) {
       const i = parseInt(the.dataset.i);
       const sp = duLieu.sanPham[i];
@@ -245,6 +342,7 @@
       moTa: ""
     });
     veDanhSachSP();
+    veDanhSachDM();
     const cacThe = document.querySelectorAll("#danh-sach-sp .the-sp-qly");
     cacThe[cacThe.length - 1].scrollIntoView({ behavior: "smooth" });
   });
@@ -255,6 +353,10 @@
     const loi = [];
     if (!duLieu.cauHinh.tenCuaHang) loi.push("Chưa nhập tên cửa hàng");
     if (!(duLieu.cauHinh.tyGiaLAK > 0)) loi.push("Tỷ giá phải lớn hơn 0");
+    if (duLieu.danhMuc.length === 0) loi.push("Phải có ít nhất 1 danh mục");
+    duLieu.danhMuc.forEach(function (dm, i) {
+      if (!dm.ten) loi.push("Danh mục #" + (i + 1) + " chưa có tên");
+    });
     duLieu.sanPham.forEach(function (sp, i) {
       if (!sp.ten) loi.push("Sản phẩm #" + (i + 1) + " chưa có tên");
       if (!(sp.gia > 0)) loi.push('Sản phẩm "' + (sp.ten || "#" + (i + 1)) + '" giá phải lớn hơn 0');
@@ -267,7 +369,8 @@
     const o = document.getElementById("ket-qua-kiem-tra");
     if (loi.length === 0) {
       o.style.color = "#15803d";
-      o.textContent = "✅ Dữ liệu hợp lệ: " + duLieu.sanPham.length + " sản phẩm, sẵn sàng tải xuống.";
+      o.textContent = "✅ Dữ liệu hợp lệ: " + duLieu.danhMuc.length + " danh mục, " +
+        duLieu.sanPham.length + " sản phẩm — sẵn sàng tải xuống.";
     } else {
       o.style.color = "#b91c1c";
       o.textContent = "⚠️ " + loi.join(" • ");
@@ -335,18 +438,14 @@
     a.click();
     a.remove();
     o.style.color = "#15803d";
-    o.textContent = "✅ Đã tải file products.js — chép đè vào thư mục website-ban-hang → js, rồi mở website bấm Ctrl+F5.";
+    o.textContent = "✅ Đã tải file products.js — vào GitHub bấm Add file → Upload files, kéo file này vào rồi bấm Commit changes.";
   });
-
-  /* ---------- Chống lỗi khi gõ ký tự đặc biệt vào ô nhập ---------- */
-  function thoatHTML(s) {
-    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-  }
 
   /* Khởi động */
   doThongTinShop();
+  veDanhSachDM();
   veDanhSachSP();
+  ganNutThemDM();
   </script>
 </body>
 </html>
