@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ hàng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ THANH MENU TRÊN CÙNG ============ -->
+  <header class="thanh-tren">
+    <div class="thanh-tren-trong">
+      <a href="index.html" class="logo">🛍️ <span data-ten-shop>Cửa Hàng</span></a>
+      <button class="nut-menu" id="nut-menu">☰</button>
+      <ul class="menu" id="menu-chinh">
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="index.html#san-pham">Sản phẩm</a></li>
+        <li><a href="cart.html" class="gio-hang">🛒 Giỏ hàng (0)</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ============ GIỎ HÀNG (tự động điền) ============ -->
+  <main class="khung">
+    <h2 class="tieu-de-muc">Giỏ hàng của bạn</h2>
+    <div id="khung-gio-hang"></div>
+  </main>
+
+  <!-- ============ CHÂN TRANG ============ -->
+  <footer class="chan-trang">
+    <p><strong data-ten-shop>Cửa Hàng</strong></p>
+    <p id="thong-tin-lien-he"></p>
+  </footer>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

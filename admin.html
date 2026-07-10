@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý cửa hàng</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Kiểu riêng cho trang quản lý */
+    .qly-khung { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; }
+    .qly-buoc {
+      background: #fffbeb;
+      border: 1.5px solid #f59e0b;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .qly-buoc ol { margin: 8px 0 0 20px; }
+    .qly-buoc li { margin-bottom: 4px; }
+    .the-sp-qly {
+      background: #fff;
+      border: 1px solid var(--mau-vien);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .the-sp-qly .hang { display: flex; gap: 10px; flex-wrap: wrap; }
+    .the-sp-qly label { flex: 1; min-width: 130px; font-size: 0.85rem; font-weight: 600; }
+    .the-sp-qly label.rong { flex-basis: 100%; }
+    .the-sp-qly input, .the-sp-qly select, .the-sp-qly textarea {
+      width: 100%; margin-top: 3px; padding: 9px 11px;
+      border: 1.5px solid var(--mau-vien); border-radius: 8px;
+      font-size: 0.95rem; font-family: inherit; outline: none;
+    }
+    .the-sp-qly input:focus, .the-sp-qly textarea:focus { border-color: var(--mau-chinh); }
+    .dau-the {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px;
+    }
+    .dau-the strong { font-size: 1rem; }
+    .nut-xoa-sp {
+      background: #fee2e2; color: #b91c1c; border: none;
+      padding: 7px 14px; border-radius: 8px; font-weight: 700; cursor: pointer;
+    }
+    .nut-xoa-sp:hover { background: #fecaca; }
+    .nut-hanh-dong {
+      background: var(--mau-chinh); color: #fff; border: none;
+      padding: 13px 22px; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+    }
+    .nut-hanh-dong:hover { background: var(--mau-dam); }
+    .nut-phu {
+      background: #fff; color: var(--mau-dam);
+      border: 1.5px solid var(--mau-chinh);
+      padding: 12px 20px; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer;
+    }
+    .thanh-nut {
+      position: sticky; bottom: 0; background: rgba(246,248,247,0.97);
+      padding: 14px 0; display: flex; gap: 12px; flex-wrap: wrap;
+      border-top: 1px solid var(--mau-vien);
+    }
+    .gia-quy-doi { font-size: 0.8rem; color: var(--mau-chu-nhat); font-weight: 400; }
+    h2.muc { font-size: 1.15rem; margin: 26px 0 12px; padding-left: 10px; border-left: 4px solid var(--mau-chinh); }
+  </style>
+</head>
+<body>
+
+  <header class="thanh-tren">
+    <div class="thanh-tren-trong">
+      <a href="index.html" class="logo">⚙️ Quản lý cửa hàng</a>
+      <ul class="menu">
+        <li><a href="index.html">← Về trang bán hàng</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="qly-khung">
+
+    <div class="qly-buoc">
+      <strong>📖 Cách dùng (3 bước, không cần biết code):</strong>
+      <ol>
+        <li>Sửa thông tin bên dưới: đổi giá, đổi tên, thêm hoặc xóa sản phẩm...</li>
+        <li>Bấm nút xanh <strong>"⬇ Tải xuống file dữ liệu mới"</strong> ở cuối trang
+            → máy tải về file tên <strong>products.js</strong>.</li>
+        <li>Chép file vừa tải <strong>đè vào</strong> file cũ trong thư mục
+            <strong>website-ban-hang → js</strong> (chọn Replace/Thay thế)
+            → mở website bấm <strong>Ctrl+F5</strong> là thấy thay đổi.</li>
+      </ol>
+      <p style="margin-top:8px">💡 Thay <strong>mã QR</strong>: chép ảnh QR mới đè lên
+        <strong>qr-vn.png</strong> (Việt) hoặc <strong>qr-lao.png</strong> (Lào).
+        Thay <strong>ảnh sản phẩm</strong>: chép ảnh vào thư mục <strong>images</strong>
+        rồi gõ tên file vào ô "Ảnh" của sản phẩm (ví dụ: images/gao.jpg).</p>
+    </div>
+
+    <h2 class="muc">🏪 Thông tin cửa hàng</h2>
+    <div class="the-sp-qly">
+      <div class="hang">
+        <label>Tên cửa hàng<input type="text" id="ch-ten"></label>
+        <label>Khẩu hiệu<input type="text" id="ch-khauhieu"></label>
+      </div>
+      <div class="hang">
+        <label>Số điện thoại (hiện cuối trang)<input type="text" id="ch-sdt"></label>
+        <label>Số Zalo nhận đơn (chỉ số)<input type="text" id="ch-zalo"></label>
+      </div>
+      <div class="hang">
+        <label class="rong">Địa chỉ<input type="text" id="ch-diachi"></label>
+      </div>
+      <div class="hang">
+        <label>Tỷ giá: 1 VND = ? LAK<input type="number" step="0.01" id="ch-tygia"></label>
+      </div>
+    </div>
+
+    <h2 class="muc">📦 Sản phẩm <span id="dem-sp" style="font-weight:400;font-size:0.9rem"></span></h2>
+    <div id="danh-sach-sp"></div>
+    <button class="nut-phu" id="nut-them-sp">➕ Thêm sản phẩm mới</button>
+
+    <div class="thanh-nut">
+      <button class="nut-hanh-dong" id="nut-tai-file">⬇ Tải xuống file dữ liệu mới (products.js)</button>
+      <button class="nut-phu" id="nut-xem-truoc">👁 Kiểm tra dữ liệu</button>
+    </div>
+    <p id="ket-qua-kiem-tra" style="font-weight:600"></p>
+  </main>
+
+  <script src="products.js"></script>
+  <script>
+  /* ================================================================
+     TRANG QUẢN LÝ — đọc dữ liệu từ products.js, cho sửa bằng form,
+     rồi sinh ra file products.js mới để tải xuống.
+     ================================================================ */
+
+  /* Bản sao dữ liệu đang chỉnh (không đụng dữ liệu gốc đang chạy) */
+  let duLieu = {
+    cauHinh: JSON.parse(JSON.stringify(CAU_HINH)),
+    danhMuc: JSON.parse(JSON.stringify(DANH_MUC)),
+    sanPham: JSON.parse(JSON.stringify(SAN_PHAM))
+  };
+
+  /* ---------- Đổ thông tin cửa hàng vào form ---------- */
+  function doThongTinShop() {
+    document.getElementById("ch-ten").value      = duLieu.cauHinh.tenCuaHang || "";
+    document.getElementById("ch-khauhieu").value = duLieu.cauHinh.khauHieu || "";
+    document.getElementById("ch-sdt").value      = duLieu.cauHinh.soDienThoai || "";
+    document.getElementById("ch-diachi").value   = duLieu.cauHinh.diaChi || "";
+    document.getElementById("ch-tygia").value    = duLieu.cauHinh.tyGiaLAK;
+    document.getElementById("ch-zalo").value     = duLieu.cauHinh.soZaloNhanDon || "";
+  }
+
+  /* ---------- Vẽ danh sách sản phẩm dạng form ---------- */
+  function veDanhSachSP() {
+    const khung = document.getElementById("danh-sach-sp");
+    let html = "";
+    duLieu.sanPham.forEach(function (sp, i) {
+      let luaChonDM = "";
+      duLieu.danhMuc.forEach(function (dm) {
+        luaChonDM += '<option value="' + dm.id + '"' +
+          (sp.danhMuc === dm.id ? " selected" : "") + ">" +
+          dm.icon + " " + dm.ten + "</option>";
+      });
+      html +=
+        '<div class="the-sp-qly" data-i="' + i + '">' +
+        '  <div class="dau-the">' +
+        "    <strong>#" + (i + 1) + "</strong>" +
+        '    <button class="nut-xoa-sp" data-i="' + i + '">🗑 Xóa sản phẩm này</button>' +
+        "  </div>" +
+        '  <div class="hang">' +
+        '    <label style="flex:2">Tên sản phẩm<input type="text" class="o-ten" value="' + thoatHTML(sp.ten) + '"></label>' +
+        '    <label>Danh mục<select class="o-danhmuc">' + luaChonDM + "</select></label>" +
+        "  </div>" +
+        '  <div class="hang">' +
+        '    <label>Giá bán (VND)<input type="number" class="o-gia" value="' + sp.gia + '">' +
+        '      <span class="gia-quy-doi" data-lak></span></label>' +
+        '    <label>Biểu tượng (emoji)<input type="text" class="o-icon" value="' + thoatHTML(sp.icon || "") + '"></label>' +
+        '    <label>Ảnh (để trống = dùng biểu tượng)<input type="text" class="o-anh" value="' + thoatHTML(sp.anh || "") + '" placeholder="ten-anh.jpg"></label>' +
+        "  </div>" +
+        '  <div class="hang">' +
+        '    <label class="rong">Mô tả<textarea class="o-mota" rows="2">' + thoatHTML(sp.moTa || "") + "</textarea></label>" +
+        "  </div>" +
+        "</div>";
+    });
+    khung.innerHTML = html;
+    document.getElementById("dem-sp").textContent = "(" + duLieu.sanPham.length + " sản phẩm)";
+
+    /* Nút xóa từng sản phẩm */
+    khung.querySelectorAll(".nut-xoa-sp").forEach(function (nut) {
+      nut.addEventListener("click", function () {
+        const i = parseInt(nut.dataset.i);
+        if (confirm('Xóa "' + duLieu.sanPham[i].ten + '"?')) {
+          ghiNhanForm();
+          duLieu.sanPham.splice(i, 1);
+          veDanhSachSP();
+        }
+      });
+    });
+
+    /* Hiện giá quy đổi LAK ngay dưới ô giá */
+    khung.querySelectorAll(".the-sp-qly").forEach(function (the) {
+      const oGia = the.querySelector(".o-gia");
+      const oLak = the.querySelector("[data-lak]");
+      function capNhat() {
+        const g = parseFloat(oGia.value) || 0;
+        const tg = parseFloat(document.getElementById("ch-tygia").value) || 0;
+        oLak.textContent = "≈ " + Math.round(g * tg).toLocaleString("vi-VN") + " ₭";
+      }
+      oGia.addEventListener("input", capNhat);
+      capNhat();
+    });
+  }
+
+  /* ---------- Đọc lại toàn bộ giá trị từ form vào duLieu ---------- */
+  function ghiNhanForm() {
+    duLieu.cauHinh.tenCuaHang    = document.getElementById("ch-ten").value.trim();
+    duLieu.cauHinh.khauHieu      = document.getElementById("ch-khauhieu").value.trim();
+    duLieu.cauHinh.soDienThoai   = document.getElementById("ch-sdt").value.trim();
+    duLieu.cauHinh.diaChi        = document.getElementById("ch-diachi").value.trim();
+    duLieu.cauHinh.tyGiaLAK      = parseFloat(document.getElementById("ch-tygia").value) || 0.85;
+    duLieu.cauHinh.soZaloNhanDon = document.getElementById("ch-zalo").value.trim();
+
+    document.querySelectorAll("#danh-sach-sp .the-sp-qly").forEach(function (the) {
+      const i = parseInt(the.dataset.i);
+      const sp = duLieu.sanPham[i];
+      if (!sp) return;
+      sp.ten     = the.querySelector(".o-ten").value.trim();
+      sp.danhMuc = the.querySelector(".o-danhmuc").value;
+      sp.gia     = parseInt(the.querySelector(".o-gia").value) || 0;
+      sp.icon    = the.querySelector(".o-icon").value.trim() || "📦";
+      sp.anh     = the.querySelector(".o-anh").value.trim();
+      sp.moTa    = the.querySelector(".o-mota").value.trim();
+    });
+  }
+
+  /* ---------- Thêm sản phẩm mới ---------- */
+  document.getElementById("nut-them-sp").addEventListener("click", function () {
+    ghiNhanForm();
+    let maxId = 0;
+    duLieu.sanPham.forEach(function (sp) { if (sp.id > maxId) maxId = sp.id; });
+    duLieu.sanPham.push({
+      id: maxId + 1,
+      ten: "Sản phẩm mới",
+      danhMuc: duLieu.danhMuc[0] ? duLieu.danhMuc[0].id : "",
+      gia: 10000,
+      icon: "📦",
+      anh: "",
+      moTa: ""
+    });
+    veDanhSachSP();
+    const cacThe = document.querySelectorAll("#danh-sach-sp .the-sp-qly");
+    cacThe[cacThe.length - 1].scrollIntoView({ behavior: "smooth" });
+  });
+
+  /* ---------- Kiểm tra dữ liệu ---------- */
+  function kiemTra() {
+    ghiNhanForm();
+    const loi = [];
+    if (!duLieu.cauHinh.tenCuaHang) loi.push("Chưa nhập tên cửa hàng");
+    if (!(duLieu.cauHinh.tyGiaLAK > 0)) loi.push("Tỷ giá phải lớn hơn 0");
+    duLieu.sanPham.forEach(function (sp, i) {
+      if (!sp.ten) loi.push("Sản phẩm #" + (i + 1) + " chưa có tên");
+      if (!(sp.gia > 0)) loi.push('Sản phẩm "' + (sp.ten || "#" + (i + 1)) + '" giá phải lớn hơn 0');
+    });
+    return loi;
+  }
+
+  document.getElementById("nut-xem-truoc").addEventListener("click", function () {
+    const loi = kiemTra();
+    const o = document.getElementById("ket-qua-kiem-tra");
+    if (loi.length === 0) {
+      o.style.color = "#15803d";
+      o.textContent = "✅ Dữ liệu hợp lệ: " + duLieu.sanPham.length + " sản phẩm, sẵn sàng tải xuống.";
+    } else {
+      o.style.color = "#b91c1c";
+      o.textContent = "⚠️ " + loi.join(" • ");
+    }
+  });
+
+  /* ---------- Sinh nội dung file products.js mới ---------- */
+  function chuoiJS(v) {
+    return '"' + String(v).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+  }
+  function taoNoiDungFile() {
+    const c = duLieu.cauHinh;
+    let r = [];
+    r.push("/* File này được tạo từ trang Quản lý (admin.html) ngày " +
+      new Date().toLocaleString("vi-VN") + " */");
+    r.push("");
+    r.push("const CAU_HINH = {");
+    r.push("  tenCuaHang: " + chuoiJS(c.tenCuaHang) + ",");
+    r.push("  khauHieu: " + chuoiJS(c.khauHieu) + ",");
+    r.push("  soDienThoai: " + chuoiJS(c.soDienThoai) + ",");
+    r.push("  diaChi: " + chuoiJS(c.diaChi) + ",");
+    r.push("  tyGiaLAK: " + c.tyGiaLAK + ",");
+    r.push("  soZaloNhanDon: " + chuoiJS(c.soZaloNhanDon));
+    r.push("};");
+    r.push("");
+    r.push("const DANH_MUC = [");
+    duLieu.danhMuc.forEach(function (dm, i) {
+      r.push("  { id: " + chuoiJS(dm.id) + ", ten: " + chuoiJS(dm.ten) +
+        ", icon: " + chuoiJS(dm.icon) + " }" + (i < duLieu.danhMuc.length - 1 ? "," : ""));
+    });
+    r.push("];");
+    r.push("");
+    r.push("const SAN_PHAM = [");
+    duLieu.sanPham.forEach(function (sp, i) {
+      r.push("  {");
+      r.push("    id: " + sp.id + ",");
+      r.push("    ten: " + chuoiJS(sp.ten) + ",");
+      r.push("    danhMuc: " + chuoiJS(sp.danhMuc) + ",");
+      r.push("    gia: " + sp.gia + ",");
+      r.push("    icon: " + chuoiJS(sp.icon) + ",");
+      r.push("    anh: " + chuoiJS(sp.anh) + ",");
+      r.push("    moTa: " + chuoiJS(sp.moTa));
+      r.push("  }" + (i < duLieu.sanPham.length - 1 ? "," : ""));
+    });
+    r.push("];");
+    r.push("");
+    return r.join("\n");
+  }
+
+  /* ---------- Tải file xuống ---------- */
+  document.getElementById("nut-tai-file").addEventListener("click", function () {
+    const loi = kiemTra();
+    const o = document.getElementById("ket-qua-kiem-tra");
+    if (loi.length > 0) {
+      o.style.color = "#b91c1c";
+      o.textContent = "⚠️ Chưa tải được, cần sửa: " + loi.join(" • ");
+      return;
+    }
+    const noiDung = taoNoiDungFile();
+    const blob = new Blob([noiDung], { type: "text/javascript;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "products.js";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    o.style.color = "#15803d";
+    o.textContent = "✅ Đã tải file products.js — chép đè vào thư mục website-ban-hang → js, rồi mở website bấm Ctrl+F5.";
+  });
+
+  /* ---------- Chống lỗi khi gõ ký tự đặc biệt vào ô nhập ---------- */
+  function thoatHTML(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  /* Khởi động */
+  doThongTinShop();
+  veDanhSachSP();
+  </script>
+</body>
+</html>

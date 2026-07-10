@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cửa Hàng Ngọc Anh</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ THANH MENU TRÊN CÙNG ============ -->
+  <header class="thanh-tren">
+    <div class="thanh-tren-trong">
+      <a href="index.html" class="logo">🛍️ <span data-ten-shop>Cửa Hàng</span></a>
+      <button class="nut-menu" id="nut-menu">☰</button>
+      <ul class="menu" id="menu-chinh">
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="index.html#san-pham">Sản phẩm</a></li>
+        <li><a href="cart.html" class="gio-hang">🛒 Giỏ hàng (0)</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ============ BANNER ============ -->
+  <section class="banner">
+    <h1 data-ten-shop>Cửa Hàng</h1>
+    <p id="khau-hieu">Chất lượng thật – Giá thật</p>
+    <a href="#san-pham" class="nut-banner">Mua sắm ngay ↓</a>
+  </section>
+
+  <!-- ============ KHU SẢN PHẨM ============ -->
+  <main class="khung" id="san-pham">
+    <h2 class="tieu-de-muc">Sản phẩm</h2>
+
+    <!-- Ô tìm kiếm + lọc giá -->
+    <div class="khung-tim-kiem">
+      <input type="text" id="o-tim-kiem" placeholder="🔍 Tìm sản phẩm... (ví dụ: gạo, cà phê)">
+      <select id="o-loc-gia" title="Lọc theo khoảng giá"></select>
+    </div>
+
+    <!-- Các nút danh mục (tự động tạo từ products.js) -->
+    <div class="khung-danh-muc" id="khung-danh-muc"></div>
+
+    <!-- Lưới sản phẩm (tự động tạo từ products.js) -->
+    <div class="luoi-san-pham" id="luoi-san-pham"></div>
+  </main>
+
+  <!-- ============ CHÂN TRANG ============ -->
+  <footer class="chan-trang">
+    <p><strong data-ten-shop>Cửa Hàng</strong></p>
+    <p id="thong-tin-lien-he"></p>
+  </footer>
+
+  <!-- Nạp dữ liệu và bộ não của website -->
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

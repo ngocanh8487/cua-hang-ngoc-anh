@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết sản phẩm</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ THANH MENU TRÊN CÙNG ============ -->
+  <header class="thanh-tren">
+    <div class="thanh-tren-trong">
+      <a href="index.html" class="logo">🛍️ <span data-ten-shop>Cửa Hàng</span></a>
+      <button class="nut-menu" id="nut-menu">☰</button>
+      <ul class="menu" id="menu-chinh">
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="index.html#san-pham">Sản phẩm</a></li>
+        <li><a href="cart.html" class="gio-hang">🛒 Giỏ hàng (0)</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- ============ CHI TIẾT SẢN PHẨM (tự động điền từ products.js) ============ -->
+  <main class="khung">
+    <a href="index.html" class="lui-lai">← Quay lại danh sách sản phẩm</a>
+    <div id="chi-tiet-sp"></div>
+
+    <div id="khung-lien-quan" style="display:none">
+      <h2 class="tieu-de-muc">Sản phẩm cùng loại</h2>
+      <div class="luoi-san-pham" id="luoi-lien-quan"></div>
+    </div>
+  </main>
+
+  <!-- ============ CHÂN TRANG ============ -->
+  <footer class="chan-trang">
+    <p><strong data-ten-shop>Cửa Hàng</strong></p>
+    <p id="thong-tin-lien-he"></p>
+  </footer>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

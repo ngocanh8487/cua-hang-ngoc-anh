@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh toán</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ THANH MENU TRÊN CÙNG ============ -->
+  <header class="thanh-tren">
+    <div class="thanh-tren-trong">
+      <a href="index.html" class="logo">🛍️ <span data-ten-shop>Cửa Hàng</span></a>
+      <button class="nut-menu" id="nut-menu">☰</button>
+      <ul class="menu" id="menu-chinh">
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="index.html#san-pham">Sản phẩm</a></li>
+        <li><a href="cart.html" class="gio-hang">🛒 Giỏ hàng (0)</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="khung">
+    <h2 class="tieu-de-muc">Thanh toán</h2>
+
+    <!-- ============ KHU ĐẶT HÀNG (2 cột) ============ -->
+    <div id="khu-dat-hang" class="khu-thanh-toan">
+
+      <!-- CỘT TRÁI: THÔNG TIN KHÁCH HÀNG -->
+      <form id="form-thanh-toan" class="the-form">
+        <h3>1️⃣ Thông tin người nhận</h3>
+        <label>Họ và tên <span class="bat-buoc">*</span>
+          <input type="text" id="kh-ten" placeholder="Ví dụ: Nguyễn Văn A">
+        </label>
+        <label>Số điện thoại <span class="bat-buoc">*</span>
+          <input type="tel" id="kh-sdt" placeholder="Ví dụ: 0972xxxxxx hoặc 020xxxxxxxx">
+        </label>
+        <label>Địa chỉ nhận hàng <span class="bat-buoc">*</span>
+          <input type="text" id="kh-diachi" placeholder="Số nhà, đường, bản/xã, huyện, tỉnh">
+        </label>
+        <label>Ghi chú (không bắt buộc)
+          <textarea id="kh-ghichu" rows="2" placeholder="Ví dụ: Giao giờ hành chính"></textarea>
+        </label>
+
+        <h3>2️⃣ Cách thanh toán</h3>
+        <label class="lua-chon">
+          <input type="radio" name="cach-tt" value="qr" checked>
+          Chuyển khoản qua mã QR (quét mã bên cạnh)
+        </label>
+        <label class="lua-chon">
+          <input type="radio" name="cach-tt" value="cod">
+          Tiền mặt khi nhận hàng
+        </label>
+
+        <p id="bao-loi" class="bao-loi"></p>
+        <button type="submit" class="nut-thanh-toan">✅ Xác nhận đặt hàng</button>
+      </form>
+
+      <!-- CỘT PHẢI: ĐƠN HÀNG + MÃ QR -->
+      <div>
+        <div class="the-form">
+          <h3>🧾 Đơn hàng của bạn</h3>
+          <div id="tom-tat-don"></div>
+        </div>
+        <div class="the-form khu-qr">
+          <h3>📱 Quét mã QR để chuyển khoản</h3>
+
+          <p class="nhan-qr">🇻🇳 Khách tại Việt Nam — Techcombank (VND)</p>
+          <!-- Ảnh QR gốc từ app Techcombank (DOAN NGOC ANH - 9726 8686 8999 99).
+               Muốn thay: chép ảnh QR mới đè lên file qr-vn.png -->
+          <img src="qr-vn.png" alt="Mã QR Techcombank (VND)" class="anh-qr">
+          <p class="chu-thich-qr">DOAN NGOC ANH — STK 9726 8686 8999 99</p>
+
+          <p class="nhan-qr nhan-qr-cach">🇱🇦 Khách tại Lào — LaoViet Bank (LAK)</p>
+          <img src="qr-lao.png" alt="Mã QR LaoViet Bank (LAK)" class="anh-qr">
+          <p class="chu-thich-qr">DOAN NGOC ANH MR — TK 06000210097005 (LAK)</p>
+
+          <p class="huong-dan-qr">
+            Mở ứng dụng ngân hàng → chọn Quét QR → quét đúng mã theo nước của bạn →
+            nhập đúng số tiền của đơn → ghi nội dung: <strong>Tên + SĐT của bạn</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ MÀN HÌNH ĐẶT HÀNG THÀNH CÔNG ============ -->
+    <div id="khu-hoan-tat" class="hoan-tat" style="display:none">
+      <p class="icon-hoan-tat">🎉</p>
+      <h3>Đặt hàng thành công!</h3>
+      <p>Nội dung đơn hàng <strong>đã được sao chép tự động</strong>.
+         Bấm nút bên dưới để mở Zalo của cửa hàng, rồi <strong>dán (Ctrl+V hoặc giữ tay để Dán)</strong> và gửi.</p>
+      <a id="nut-mo-zalo" class="nut-thanh-toan" href="#" target="_blank">💬 Mở Zalo gửi đơn cho cửa hàng</a>
+      <p class="ghi-chu-nho">Nếu dán không có nội dung, hãy bấm "Sao chép lại" rồi thử lại:</p>
+      <textarea id="vung-don" rows="10" readonly></textarea>
+      <button id="nut-chep-lai" class="nut-banner nut-xanh">📋 Sao chép lại nội dung đơn</button>
+      <a href="index.html" class="tiep-tuc-mua">← Về trang chủ</a>
+    </div>
+  </main>
+
+  <!-- ============ CHÂN TRANG ============ -->
+  <footer class="chan-trang">
+    <p><strong data-ten-shop>Cửa Hàng</strong></p>
+    <p id="thong-tin-lien-he"></p>
+  </footer>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
