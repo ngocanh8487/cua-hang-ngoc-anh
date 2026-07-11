@@ -140,5 +140,14 @@ const SAN_PHAM = [
     icon: "🛁",
     anh: "",
     moTa: "Khăn tắm 100% cotton mềm mịn, thấm hút tốt, kích thước lớn."
+  },
+  {
+    id: 13,
+    ten: "Câu lệnh AI: Poster điện ảnh KOL – Chợ Bến Thành",
+    danhMuc: "prompt-ai",
+    gia: 5882,
+    icon: "🎬",
+    anh: "",
+    moTa: "Câu lệnh (prompt) tạo poster điện ảnh cao cấp phong cách Netflix: nhân vật KOL giữa Chợ Bến Thành, ánh nắng hoàng hôn, bố cục 2 lớp như poster phim, phong cách quiet luxury. Dài hơn 2.000 ký tự, chi tiết từng lớp ánh sáng, màu sắc, bố cục và chữ trên poster — chỉ cần dán vào công cụ AI tạo ảnh là ra kết quả như ảnh mẫu. 📩 Sau khi thanh toán, câu lệnh đầy đủ được gửi qua Zalo trong ngày."
   }
 ];
