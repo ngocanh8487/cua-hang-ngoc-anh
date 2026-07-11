@@ -20,7 +20,9 @@ const DANH_MUC = [
   { id: "thuc-pham",  ten: "Thực phẩm",         icon: "🍚" },
   { id: "do-uong",    ten: "Đồ uống",            icon: "🧃" },
   { id: "gia-dung",   ten: "Đồ gia dụng",        icon: "🏠" },
-  { id: "cham-soc",   ten: "Chăm sóc cá nhân",   icon: "🧴" }
+  { id: "cham-soc",   ten: "Chăm sóc cá nhân",   icon: "🧴" },
+  { id: "tai-lieu",   ten: "Tài liệu",            icon: "📄" },
+  { id: "prompt-ai",  ten: "Prompt AI",           icon: "🤖" }
 ];
 
 /* ---------- 3. DANH SÁCH SẢN PHẨM ----------
