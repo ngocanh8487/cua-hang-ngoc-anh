@@ -1,4 +1,4 @@
-/* File này được tạo từ trang Quản lý (admin.html) ngày 14:08:34 14/7/2026 */
+/* File này được tạo từ trang Quản lý (admin.html) ngày 15:45:06 14/7/2026 */
 
 const CAU_HINH = {
   tenCuaHang: "Cửa Hàng Ngọc Anh",
@@ -21,16 +21,16 @@ const DANH_MUC = [
 const SAN_PHAM = [
   {
     id: 13,
-    ten: "Câu lệnh AI: Poster điện ảnh KOL – Chợ Bến Thành",
+    ten: "Câu lệnh AI: Poster điện ảnh",
     danhMuc: "prompt-ai",
     gia: 5882,
     icon: "🎬",
     anh: "poster-luna-tran.jpg",
-    moTa: "Câu lệnh (prompt) tạo poster điện ảnh cao cấp phong cách Netflix: nhân vật KOL giữa Chợ Bến Thành, ánh nắng hoàng hôn, bố cục 2 lớp như poster phim, phong cách quiet luxury. Dài hơn 2.000 ký tự, chi tiết từng lớp ánh sáng, màu sắc, bố cục và chữ trên poster — chỉ cần dán vào công cụ AI tạo ảnh là ra kết quả như ảnh mẫu. 📩 Sau khi thanh toán, câu lệnh đầy đủ được gửi qua Zalo trong ngày."
+    moTa: "Câu lệnh (prompt) tạo poster điện ảnh cao cấp phong cách Netflix: và rất nhiều mẫu ảnh tương tự, chi tiết từng lớp ánh sáng, màu sắc, bố cục và chữ trên poster — chỉ cần dán vào công cụ AI tạo ảnh là ra kết quả như ảnh mẫu. 📩 Sau khi thanh toán, câu lệnh đầy đủ được gửi qua Zalo trong ngày."
   },
   {
     id: 14,
-    ten: "Tài liệu kiến thức Toán tiểu học",
+    ten: "Tài liệu kiến thức Toán lớp 4",
     danhMuc: "tai-lieu",
     gia: 10000,
     icon: "📦",
